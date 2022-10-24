@@ -12,8 +12,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Weather Forecast',
-        theme: ThemeData.dark(),
-        home: const MainPage());
+        title: 'Weather Forecast', theme: ThemeData.dark(), home: MainPage());
   }
 }
