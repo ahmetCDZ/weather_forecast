@@ -12,21 +12,21 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  String location = "Ankara";
+  String location = "Istanbul";
 
   double temp = 0;
 
-  final String apiKey = 'b16ca46383c5be7ffc134fefdae0ac48';
+  final String apiKey = '790da9ca6cee47352afca088f9fe64f3';
 
   var locationData;
 
   Future<void> getLocationWeather() async {
     locationData = await http.get(Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?q=$location,uk&appid=$apiKey'));
+        'http://api.openweathermap.org/data/2.5/weather?q=$location,tr&APPID=$apiKey&units=metric'));
     final locationDataParsed = jsonDecode(locationData.body);
 
     setState(() {
-      temp = locationDataParsed['main'][("temp")];
+      temp = locationDataParsed['main']['temp'];
       location = locationDataParsed['name'];
     });
   }
@@ -67,7 +67,7 @@ class _MainPageState extends State<MainPage> {
                 ],
               ),
               Text(
-                '$temp',
+                '$temp Cº',
                 style: TextStyle(fontSize: 40),
               )
             ],
