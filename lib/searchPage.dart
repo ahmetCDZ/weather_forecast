@@ -8,6 +8,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  String selextedCity = '';
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,12 +27,20 @@ class _SearchPageState extends State<SearchPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
+                onChanged: (value) {
+                  selextedCity = value;
+                },
                 decoration: InputDecoration(
                     hintText: 'Şehir seçiniz',
                     border: OutlineInputBorder(borderSide: BorderSide.none)),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 40),
-              )
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context, selextedCity);
+                  },
+                  child: Text('OK'))
             ],
           ),
         ),

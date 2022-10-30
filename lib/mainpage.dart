@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -12,12 +11,9 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  String location = "Istanbul";
-
-  double temp = 0;
-
+  String location = '';
+  double? temp;
   final String apiKey = '790da9ca6cee47352afca088f9fe64f3';
-
   var locationData;
 
   Future<void> getLocationWeather() async {
@@ -43,37 +39,42 @@ class _MainPageState extends State<MainPage> {
       decoration: BoxDecoration(
           image: DecorationImage(
               image: AssetImage('assets/c.jpg'), fit: BoxFit.cover)),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    location,
-                    style: TextStyle(fontSize: 70),
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SearchPage()));
-                      },
-                      icon: const Icon(Icons.search, size: 40))
-                ],
+      child: temp == null
+          ? Center(child: CircularProgressIndicator())
+          : Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          location,
+                          style: TextStyle(fontSize: 50),
+                        ),
+                        IconButton(
+                            onPressed: () async {
+                              final selectedCity = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SearchPage()));
+                              location = selectedCity;
+                              getLocationWeather();
+                            },
+                            icon: const Icon(Icons.search, size: 40))
+                      ],
+                    ),
+                    Text(
+                      '$temp Cº',
+                      style: TextStyle(fontSize: 40),
+                    )
+                  ],
+                ),
               ),
-              Text(
-                '$temp Cº',
-                style: TextStyle(fontSize: 40),
-              )
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
